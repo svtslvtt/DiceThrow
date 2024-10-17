@@ -49,12 +49,15 @@ class DieFragment : Fragment() {
         dieTextView.text = Random.nextInt(dieSides).toString()
     }
 
-    companion object
+    companion object {
 
     fun newInstance(size: Int) = DieFragment().apply {
         arguments = Bundle().apply {
             putInt(DIESIDE, size)
         }
+    }
+
+
 
     }
 
