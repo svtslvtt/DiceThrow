@@ -24,5 +24,6 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.dieContainer, fragment)
             .commit()
 
+
     }
 }

@@ -10,13 +10,18 @@ import androidx.annotation.Size
 import androidx.core.os.bundleOf
 import kotlin.random.Random
 
+
+const val DICE_ROLL = "DICEROLL"
+
 class DieFragment : Fragment() {
+
 
     val DIESIDE = "sidenumber"
 
     lateinit var dieTextView: TextView
 
     var dieSides: Int = 6
+    var dieRoll: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,12 @@ class DieFragment : Fragment() {
 
     fun throwDie() {
         dieTextView.text = Random.nextInt(dieSides).toString()
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(DICE_ROLL, dieRoll)
     }
 
     companion object {
@@ -56,6 +67,7 @@ class DieFragment : Fragment() {
             putInt(DIESIDE, size)
         }
     }
+
 
 
 
