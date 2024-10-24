@@ -14,11 +14,14 @@ import kotlin.random.Random
 
 const val DICE_ROLL = "DICEROLL"
 
+
 class DieFragment : Fragment() {
+
 
     private val dieViewModel: DieViewModel by lazy {
         ViewModelProvider(requireActivity())[DieViewModel::class.java]
     }
+
 
     val DIESIDE = "sidenumber"
 
@@ -53,26 +56,26 @@ class DieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         savedInstanceState?.run {
-            dieViewModel.getDieRoll().observe(viewLifecycleOwner){
-
+            dieViewModel.getDieRoll().observe(viewLifecycleOwner) {
+                dieTextView.text = it.toString()
             }
-    }
+            if (dieViewModel.getDieRoll().value == 0) {
+                throwDie()
+            }
+        }
 
-    fun throwDie() {
-        dieViewModel.setDieRoll(Random.nextInt(dieSides) + 1)
-    }
+        fun throwDie() {
+            dieViewModel.setDieRoll(Random.nextInt(dieSides) + 1)
+        }
 
-    companion object {
+        companion object {
 
-    fun newInstance(size: Int) = DieFragment().apply {
-        arguments = Bundle().apply {
-            putInt(DIESIDE, dieSides)
+            fun newInstance(size: Int) = DieFragment().apply {
+                Bundle().apply {
+                    putInt(DIESIDE, dieSides)
+                }
+            }
         }
     }
-
-
-
-
-    }
-
 }
+
