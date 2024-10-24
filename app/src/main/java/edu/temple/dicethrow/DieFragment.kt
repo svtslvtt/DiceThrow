@@ -16,11 +16,9 @@ const val DICE_ROLL = "DICEROLL"
 
 
 class DieFragment : Fragment() {
+    private lateinit var dieViewModel: DieViewModel
 
 
-    private val dieViewModel: DieViewModel by lazy {
-        ViewModelProvider(requireActivity())[DieViewModel::class.java]
-    }
 
 
     val DIESIDE = "sidenumber"
@@ -34,6 +32,7 @@ class DieFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        dieViewModel = ViewModelProvider(requireActivity())[DieViewModel::class.java]
 
         arguments?.let {
             it.getInt(DIESIDE).run {
@@ -54,12 +53,10 @@ class DieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        savedInstanceState?.run {
             dieViewModel.getDieRoll().observe(viewLifecycleOwner) {
                 dieTextView.text = it.toString()
             }
-            if (dieViewModel.getDieRoll().value == 0) {
+            if (dieViewModel.getDieRoll().value == null) {
                 throwDie()
             }
         }
@@ -71,11 +68,10 @@ class DieFragment : Fragment() {
         companion object {
 
             fun newInstance(size: Int) = DieFragment().apply {
-                Bundle().apply {
+                arguments = Bundle().apply {
                     putInt(DIESIDE, dieSides)
                 }
             }
         }
-    }
 }
 
